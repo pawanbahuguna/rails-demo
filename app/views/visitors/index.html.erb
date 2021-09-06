@@ -1,10 +1,10 @@
-<h3>Welcome</h3>
+<h3>Howdy Ho!</h3>
 <% if user_signed_in? %>
   <% if current_user.admin? %>
     <h3>Admin</h3>
     <p><%= link_to 'User count:', users_path %> <%= User.count %></p>
   <% else %>
-    <h3>Welcome aboard! <%= link_to 'Download a free book', thankyou_path %></h3>
+    <h3>Welcome aboard! <%= link_to 'Download our free guide', thankyou_path %></h3>
   <% end %>
 <% else %>
   <h3>Come on in and Download our free Operations guide!</h3>
