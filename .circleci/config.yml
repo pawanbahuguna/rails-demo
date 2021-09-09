@@ -1,5 +1,19 @@
  jobs:
-   buildandtest:
+   build:
+     docker:
+       - image: 'cimg/ruby:2.7-node'
+     steps:
+       - checkout
+       - run: sudo apt-get update
+       - run: sudo apt-get install libsqlite3-dev
+       - run: gem install sqlite3 -v '1.4.2' --source 'https://rubygems.org/'
+       - run: bundle lock --add-platform x86-mingw32 x86-mswin32 x64-mingw32 java
+       - ruby/install-deps
+       - node/install-packages:
+           pkg-manager: yarn
+           cache-key: "yarn.lock"   
+
+   test:
      docker:
        - image: 'cimg/ruby:2.7-node'
        - environment:
@@ -18,8 +32,6 @@
      steps:
        - checkout
        - run: sudo apt-get update
- #      - run: sudo apt-get install libsqlite3-dev
- #      - run: gem install sqlite3 -v '1.4.2' --source 'https://rubygems.org/'
        - run: gem install rake
        - run: bundle lock --add-platform x86-mingw32 x86-mswin32 x64-mingw32 java
        - ruby/install-deps
@@ -61,7 +73,10 @@
  workflows:
    build_and_test:
      jobs:
-       - buildandtest
+       - build
+       - test
+           requires:
+             - build 
        - cypress/run:
            build: bundle install
            executor: ruby 
@@ -70,9 +85,10 @@
            install-command: 'sudo apt-get update'
            verify-command: 'sudo apt-get install xvfb libgtk-3-dev libnotify-dev libgconf-2-4 libnss3 libxss1 libasound2 --fix-missing'
            requires:
-             - buildandtest
+             - build
        - deploy:
            requires:
+             - test
              - cypress/run
 
          
