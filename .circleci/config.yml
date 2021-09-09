@@ -11,7 +11,7 @@
        - ruby/install-deps
        - node/install-packages:
            pkg-manager: yarn
-           cache-key: "yarn2.lock"   
+           cache-key: "yarn.lock"   
 
    test:
      docker:
@@ -37,7 +37,7 @@
        - ruby/install-deps
        - node/install-packages:
            pkg-manager: yarn
-           cache-key: "yarn2.lock"
+           cache-key: "yarn.lock"
        - run: rake db:create && rake db:migrate
        - run:
            command: 'dockerize -wait tcp://localhost:5432 -timeout 1m'
@@ -78,7 +78,7 @@
            requires:
              - build 
        - cypress/run:
-           build: bundle install
+           build: bundle install && cypress install
            executor: ruby 
            start: cd ~/project && rails server
            wait-on: http://localhost:3000
