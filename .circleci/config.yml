@@ -23,9 +23,9 @@
        - run: gem install rake
        - run: bundle lock --add-platform x86-mingw32 x86-mswin32 x64-mingw32 java
        - ruby/install-deps
- #      - node/install-packages:
- #          pkg-manager: yarn
- #          cache-key: "yarn.lock"
+       - node/install-packages:
+           pkg-manager: yarn
+           cache-key: "yarn.lock"
        - run: rake db:create && rake db:migrate
        - run:
            command: 'dockerize -wait tcp://localhost:5432 -timeout 1m'
