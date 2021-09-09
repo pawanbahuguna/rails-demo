@@ -1,18 +1,4 @@
  jobs:
-#   build:
-#     docker:
-#       - image: 'cimg/ruby:2.7-node'
-#     steps:
-#       - checkout
-#       - run: sudo apt-get update
-#       - run: sudo apt-get install libsqlite3-dev
-#       - run: gem install sqlite3 -v '1.4.2' --source 'https://rubygems.org/'
-#       - run: bundle lock --add-platform x86-mingw32 x86-mswin32 x64-mingw32 java
-#       - ruby/install-deps
-#       - node/install-packages:
-#           pkg-manager: yarn
-#           cache-key: "yarn.lock"
-   
    buildandtest:
      docker:
        - image: 'cimg/ruby:2.7-node'
@@ -32,9 +18,9 @@
      steps:
        - checkout
        - run: sudo apt-get update
-       - run: sudo apt-get install libsqlite3-dev
-       - run: gem install sqlite3 -v '1.4.2' --source 'https://rubygems.org/'
-       - run: gem install rake
+ #      - run: sudo apt-get install libsqlite3-dev
+ #      - run: gem install sqlite3 -v '1.4.2' --source 'https://rubygems.org/'
+ #      - run: gem install rake
        - run: bundle lock --add-platform x86-mingw32 x86-mswin32 x64-mingw32 java
        - ruby/install-deps
        - node/install-packages:
@@ -77,6 +63,7 @@
      jobs:
        - buildandtest
        - cypress/run:
+           build: bundle install
            executor: ruby 
            start: cd ~/project && rails server
            wait-on: http://localhost:3000
