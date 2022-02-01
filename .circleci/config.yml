@@ -15,18 +15,13 @@ parameters:
 
 jobs:
   module-a:
-    docker:
-      - image: 'circleci/buildpack-deps:stretch'
-    environment:
-      IMAGE_NAME: brianoh1979/circleci-demo-docker3
+    macos:
+      xcode: 12.5.1
     steps:
       - checkout
-      - setup_remote_docker
-      - docker/check
-      - docker/build:
-          image: brianoh1979/circleci-demo-docker3
-      - docker/push:
-          image: brianoh1979/circleci-demo-docker3
+      - run:
+          name: Run Unit Tests
+          command: xcodebuild test -scheme circleci-demo-macos
 
   build:
     docker:
