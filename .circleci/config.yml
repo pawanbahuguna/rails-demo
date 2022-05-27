@@ -73,7 +73,7 @@
            name: run tests
            command: |
              mkdir /tmp/test-results
-             TEST_FILES="$(circleci tests glob "spec/**/*_spec.rb" | circleci tests split --split-by=timings  --timings-type=filename)"
+             TEST_FILES="$(circleci tests glob "spec/**/*_spec.rb" | circleci tests split --split-by=timings --timings-type=filename)"
 
              echo $TEST_FILES
              EAGER_LOAD=1 bundle exec rspec --format progress \
