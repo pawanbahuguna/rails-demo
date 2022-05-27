@@ -68,15 +68,15 @@
        - run:
            command: 'bundle exec rails db:schema:load --trace'
            name: Database setup
-       #- ruby/rspec-test
-       - run:
-           name: run tests
-           command: |
-             mkdir /tmp/test-results
-             TESTFILES=$(circleci tests glob "spec/**/*_spec.rb" | circleci tests split --split-by=timings)
-             bundle exec rspec $TESTFILES --profile 10 --format RspecJunitFormatter --out /tmp/test-results/rspec/results.xml --format progress
-       - store_test_results:
-           path: /tmp/test-results
+       - ruby/rspec-test
+       #- run:
+        #   name: run tests
+        #   command: |
+         #    mkdir /tmp/test-results
+         #    TESTFILES=$(circleci tests glob "spec/**/*_spec.rb" | circleci tests split --split-by=timings)
+         #    bundle exec rspec $TESTFILES --profile 10 --format RspecJunitFormatter --out /tmp/test-results/rspec/results.xml --format progress
+       #- store_test_results:
+       #    path: /tmp/test-results
 
    deploy:
      docker:
